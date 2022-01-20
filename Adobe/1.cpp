@@ -2,29 +2,34 @@
 using namespace std;
 
 vector<int> subarraySum(int arr[], int n, long long s) {
-  int i = 0, j = 0;
-  long long sum = 1LL * arr[0];
-  vector<int> v;
+  int i = 0, j = -1;
+  long long sum = 1LL * 0;
+  vector<int> v(1, -1);
 
   for (int k = 0; k < n; k++) {
-    while (sum > s) {
-      i++;
-      sum -= arr[i];
-    }
-
-    if (sum == s) {
-      v.push_back(i);
-      v.push_back(j);
-    }
-
     sum += arr[k];
     j++;
 
-    return v;
+    while (sum > s && i < j) {
+      sum -= arr[i];
+      i++;
+    }
+
+    if (sum == s) {
+      v[0] = i + 1;
+      v.push_back(j + 1);
+      break;
+    }
   }
+
+  return v;
 }
 
 int main() {
+#ifndef ONLINE_JUDGE
+  freopen("input.txt", "r", stdin);
+  freopen("output.txt", "w", stdout);
+#endif
   int n;
   cin >> n;
   long long s;
@@ -33,6 +38,9 @@ int main() {
   for (int i = 0; i < n; i++) {
     cin >> a[i];
   }
-  cout << subarraySum(a, n, s);
+  vector<int> ans = subarraySum(a, n, s);
+
+  cout << ans[0] << " " << ans[1] << endl;
+
   return 0;
 }
