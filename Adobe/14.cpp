@@ -8,7 +8,7 @@ int minSteps(int D) {
 
   while (x + i < D) {
     x += i;
-    i++;
+    a i++;
     steps++;
   }
 
